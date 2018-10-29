@@ -38,6 +38,8 @@
         "friendsofphp/php-cs-fixer": "^2.13",
         "memio/spec-gen": "^0.9.0",
         "pedrotroller/php-cs-custom-fixer": "^2.15",
-        "phpspec/phpspec": "^5.1"
+        "phpspec/phpspec": "^5.1",
+        "phpstan/phpstan": "^0.10.5",
+        "phpstan/phpstan-strict-rules": "^0.10.1"
     }
 }
