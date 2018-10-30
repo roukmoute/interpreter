@@ -6,7 +6,6 @@ namespace Roukmoute\Interpreter;
 
 use Exception;
 use Webmozart\Assert\Assert;
-use function mb_strlen;
 
 class Interpreter
 {
@@ -19,10 +18,16 @@ class Interpreter
     /** @var Token */
     private $currentToken;
 
+    /** @var string|null */
+    private $currentChar;
+
     public function __construct(string $text)
     {
         $this->text = $text;
         $this->position = 0;
+        if (isset($this->text[0])) {
+            $this->currentChar = $this->text[0];
+        }
         $this->currentToken = $this->getNextToken();
     }
 
@@ -31,27 +36,26 @@ class Interpreter
      */
     public function getNextToken(): Token
     {
-        $text = $this->text;
+        while ($this->currentChar) {
+            $this->skipWhitespace();
 
-        if ($this->position > mb_strlen($text) - 1) {
-            return new Token(Token::EOF, null);
+            if (ctype_digit($this->currentChar)) {
+                $currentChar = $this->currentChar;
+                $this->advance();
+
+                return new Token(Token::INTEGER, $currentChar);
+            }
+
+            if ($this->currentChar === '+') {
+                $this->advance();
+
+                return new Token(Token::PLUS, '+');
+            }
+
+            throw new Exception('Error parsing input');
         }
 
-        $currentChar = $text[$this->position];
-
-        if (ctype_digit($currentChar)) {
-            ++$this->position;
-
-            return new Token(Token::INTEGER, $currentChar);
-        }
-
-        if ($currentChar === '+') {
-            ++$this->position;
-
-            return new Token(Token::PLUS, $currentChar);
-        }
-
-        throw new Exception('Error parsing input');
+        return new Token(Token::EOF, null);
     }
 
     /**
@@ -86,5 +90,21 @@ class Interpreter
         $result = (int) $left->value() + (int) $right->value();
 
         return (string) $result;
+    }
+
+    private function advance(): void
+    {
+        $this->currentChar = null;
+
+        if (isset($this->text[++$this->position])) {
+            $this->currentChar = $this->text[$this->position];
+        }
+    }
+
+    private function skipWhitespace(): void
+    {
+        while (ctype_space((string) $this->currentChar)) {
+            $this->advance();
+        }
     }
 }

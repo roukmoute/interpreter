@@ -12,16 +12,18 @@ class InterpreterSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->beConstructedWith('');
+
         $this->shouldHaveType(Interpreter::class);
     }
 
-    function it_can_read_next_token_with_plus()
+    function it_reads_plus_token()
     {
         $this->beConstructedWith('3+5');
+
         $this->getNextToken()->shouldBeLike(new Token(Token::PLUS, '+'));
     }
 
-    function it_can_read_next_token_with_end_of_line()
+    function it_reads_end_of_line_token()
     {
         $this->beConstructedWith('3+5');
         $this->getNextToken();
@@ -29,16 +31,18 @@ class InterpreterSpec extends ObjectBehavior
         $this->getNextToken()->shouldBeLike(new Token(Token::EOF, null));
     }
 
-    function it_throws_an_exception_when_input_contains_unknow_token()
-    {
-        $this->beConstructedWith('3 + 5');
-        $this->shouldThrow(new Exception('Error parsing input'))->during('getNextToken');
-    }
-
-    function it_can_read_next_token_with_integer()
+    function it_reads_integer_token()
     {
         $this->beConstructedWith('3+5');
+
         $this->currentToken()->shouldBeLike(new Token(Token::INTEGER, '3'));
+    }
+
+    function it_throws_an_exception_when_input_contains_unknow_token()
+    {
+        $this->beConstructedWith('3e5');
+
+        $this->shouldThrow(new Exception('Error parsing input'))->during('getNextToken');
     }
 
     function it_consumes_current_token()
@@ -56,9 +60,17 @@ class InterpreterSpec extends ObjectBehavior
         $this->shouldThrow(new Exception('Error parsing input'))->during('consume', [Token::PLUS]);
     }
 
-    function it_understands_an_addition_with_one_digits()
+    function it_computes_an_addition_with_one_digits()
     {
         $this->beConstructedWith('3+5');
+
+        $this->expr()->shouldReturn('8');
+    }
+
+    function it_computes_an_addition_with_whitespace_characters()
+    {
+        $this->beConstructedWith('  3  +  5');
+
         $this->expr()->shouldReturn('8');
     }
 }
