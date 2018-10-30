@@ -82,26 +82,31 @@ class Interpreter
 
     public function expr(): string
     {
-        $left = $this->currentToken;
-        $this->consume(Token::INTEGER);
+        $result = $this->term();
 
-        $operand = $this->currentToken;
-        if ($operand->type() === Token::PLUS) {
-            $this->consume(Token::PLUS);
-        } else {
-            $this->consume(Token::MINUS);
-        }
+        while (\in_array($this->currentToken->type(), [Token::PLUS, Token::MINUS], true)) {
+            $token = $this->currentToken;
 
-        $right = $this->currentToken;
-        $this->consume(Token::INTEGER);
+            if ($token->type() === Token::PLUS) {
+                $this->consume(Token::PLUS);
+                $result += $this->term();
+            }
 
-        if ($operand->type() === Token::PLUS) {
-            $result = (int) $left->value() + (int) $right->value();
-        } else {
-            $result = (int) $left->value() - (int) $right->value();
+            if ($token->type() === Token::MINUS) {
+                $this->consume(Token::MINUS);
+                $result -= $this->term();
+            }
         }
 
         return (string) $result;
+    }
+
+    private function term(): ?string
+    {
+        $token = $this->currentToken;
+        $this->consume(Token::INTEGER);
+
+        return $token->value();
     }
 
     private function advance(): void

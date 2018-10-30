@@ -87,4 +87,11 @@ class InterpreterSpec extends ObjectBehavior
 
         $this->expr()->shouldReturn('13');
     }
+
+    function it_computes_arithmetic_expressions_that_have_any_number()
+    {
+        $this->beConstructedWith('7 - 3 + 2 - 1');
+
+        $this->expr()->shouldReturn('5');
+    }
 }
