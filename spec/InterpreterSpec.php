@@ -73,4 +73,11 @@ class InterpreterSpec extends ObjectBehavior
 
         $this->expr()->shouldReturn('8');
     }
+
+    function it_computes_an_addition_with_multi_digit_integers()
+    {
+        $this->beConstructedWith('13 + 29');
+
+        $this->expr()->shouldReturn('42');
+    }
 }

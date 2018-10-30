@@ -40,10 +40,7 @@ class Interpreter
             $this->skipWhitespace();
 
             if (ctype_digit($this->currentChar)) {
-                $currentChar = $this->currentChar;
-                $this->advance();
-
-                return new Token(Token::INTEGER, $currentChar);
+                return new Token(Token::INTEGER, $this->integer());
             }
 
             if ($this->currentChar === '+') {
@@ -106,5 +103,18 @@ class Interpreter
         while (ctype_space((string) $this->currentChar)) {
             $this->advance();
         }
+    }
+
+    private function integer(): string
+    {
+        $number = '';
+
+        while (ctype_digit((string) $this->currentChar)) {
+            $number .= $this->currentChar;
+
+            $this->advance();
+        }
+
+        return $number;
     }
 }
