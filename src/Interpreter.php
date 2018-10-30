@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Roukmoute\Interpreter;
 
 use Exception;
+use Webmozart\Assert\Assert;
 use function mb_strlen;
 
 class Interpreter
@@ -15,10 +16,14 @@ class Interpreter
     /** @var int */
     private $position;
 
+    /** @var Token */
+    private $currentToken;
+
     public function __construct(string $text)
     {
         $this->text = $text;
         $this->position = 0;
+        $this->currentToken = $this->getNextToken();
     }
 
     /**
@@ -47,5 +52,24 @@ class Interpreter
         }
 
         throw new Exception('Error parsing input');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function consume(string $type): void
+    {
+        Assert::oneOf($type, Token::getConstants());
+
+        if ($this->currentToken->type() !== $type) {
+            throw new Exception('Error parsing input');
+        }
+
+        $this->currentToken = $this->getNextToken();
+    }
+
+    public function currentToken(): Token
+    {
+        return $this->currentToken;
     }
 }

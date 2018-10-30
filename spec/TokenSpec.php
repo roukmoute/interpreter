@@ -58,4 +58,11 @@ class TokenSpec extends ObjectBehavior
             ->duringInstantiation()
         ;
     }
+
+    function it_returns_the_type()
+    {
+        $this->beConstructedWith(Token::INTEGER, '9');
+
+        $this->type()->shouldReturn('INTEGER');
+    }
 }

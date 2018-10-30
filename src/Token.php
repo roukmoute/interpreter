@@ -30,6 +30,11 @@ class Token extends AbstractEnum
         $this->value = $value;
     }
 
+    public function type(): string
+    {
+        return $this->type;
+    }
+
     public function __toString(): string
     {
         return sprintf('Token(%s, %s)', $this->type, $this->value ?? 'null');
