@@ -55,4 +55,10 @@ class InterpreterSpec extends ObjectBehavior
 
         $this->shouldThrow(new Exception('Error parsing input'))->during('consume', [Token::PLUS]);
     }
+
+    function it_understands_an_addition_with_one_digits()
+    {
+        $this->beConstructedWith('3+5');
+        $this->expr()->shouldReturn('8');
+    }
 }

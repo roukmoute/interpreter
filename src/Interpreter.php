@@ -72,4 +72,19 @@ class Interpreter
     {
         return $this->currentToken;
     }
+
+    public function expr(): string
+    {
+        $left = $this->currentToken;
+        $this->consume(Token::INTEGER);
+
+        $this->consume(Token::PLUS);
+
+        $right = $this->currentToken;
+        $this->consume(Token::INTEGER);
+
+        $result = (int) $left->value() + (int) $right->value();
+
+        return (string) $result;
+    }
 }

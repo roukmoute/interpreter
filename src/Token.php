@@ -30,6 +30,11 @@ class Token extends AbstractEnum
         $this->value = $value;
     }
 
+    public function value(): ?string
+    {
+        return $this->value;
+    }
+
     public function type(): string
     {
         return $this->type;
