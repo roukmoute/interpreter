@@ -49,6 +49,12 @@ class Interpreter
                 return new Token(Token::PLUS, '+');
             }
 
+            if ($this->currentChar === '-') {
+                $this->advance();
+
+                return new Token(Token::MINUS, '-');
+            }
+
             throw new Exception('Error parsing input');
         }
 
@@ -79,12 +85,21 @@ class Interpreter
         $left = $this->currentToken;
         $this->consume(Token::INTEGER);
 
-        $this->consume(Token::PLUS);
+        $operand = $this->currentToken;
+        if ($operand->type() === Token::PLUS) {
+            $this->consume(Token::PLUS);
+        } else {
+            $this->consume(Token::MINUS);
+        }
 
         $right = $this->currentToken;
         $this->consume(Token::INTEGER);
 
-        $result = (int) $left->value() + (int) $right->value();
+        if ($operand->type() === Token::PLUS) {
+            $result = (int) $left->value() + (int) $right->value();
+        } else {
+            $result = (int) $left->value() - (int) $right->value();
+        }
 
         return (string) $result;
     }

@@ -80,4 +80,11 @@ class InterpreterSpec extends ObjectBehavior
 
         $this->expr()->shouldReturn('42');
     }
+
+    function it_computes_a_soustraction_with_multi_digit_integers()
+    {
+        $this->beConstructedWith('42 - 29');
+
+        $this->expr()->shouldReturn('13');
+    }
 }

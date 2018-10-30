@@ -13,6 +13,7 @@ class Token extends AbstractEnum
     public const EOF = 'EOF';
     public const INTEGER = 'INTEGER';
     public const PLUS = 'PLUS';
+    public const MINUS = 'MINUS';
 
     /** @var string */
     private $type;

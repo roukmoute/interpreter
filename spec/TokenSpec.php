@@ -38,6 +38,13 @@ class TokenSpec extends ObjectBehavior
         $this->__toString()->shouldBe('Token(PLUS, +)');
     }
 
+    function it_is_a_char_minus_token()
+    {
+        $this->beConstructedWith(Token::MINUS, '-');
+
+        $this->__toString()->shouldBe('Token(MINUS, -)');
+    }
+
     function it_is_a_end_of_file_token()
     {
         $this->beConstructedWith(Token::EOF, null);
