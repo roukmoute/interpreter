@@ -45,6 +45,20 @@ class TokenSpec extends ObjectBehavior
         $this->__toString()->shouldBe('Token(MINUS, -)');
     }
 
+    function it_is_a_char_mul_token()
+    {
+        $this->beConstructedWith(Token::MUL, '*');
+
+        $this->__toString()->shouldBe('Token(MUL, *)');
+    }
+
+    function it_is_a_char_div_token()
+    {
+        $this->beConstructedWith(Token::DIV, '/');
+
+        $this->__toString()->shouldBe('Token(DIV, /)');
+    }
+
     function it_is_a_end_of_file_token()
     {
         $this->beConstructedWith(Token::EOF, null);

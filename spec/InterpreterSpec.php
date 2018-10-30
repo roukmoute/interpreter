@@ -88,10 +88,24 @@ class InterpreterSpec extends ObjectBehavior
         $this->expr()->shouldReturn('13');
     }
 
-    function it_computes_arithmetic_expressions_that_have_any_number()
+    function it_computes_a_multiplication()
     {
-        $this->beConstructedWith('7 - 3 + 2 - 1');
+        $this->beConstructedWith('5 * 7');
+
+        $this->expr()->shouldReturn('35');
+    }
+
+    function it_computes_a_division()
+    {
+        $this->beConstructedWith('10 / 2');
 
         $this->expr()->shouldReturn('5');
+    }
+
+    function it_computes_arithmetic_expressions_that_have_any_number()
+    {
+        $this->beConstructedWith('7 - 3 + 2 - 1 + 7 * 4 / 2 * 3');
+
+        $this->expr()->shouldReturn('72');
     }
 }

@@ -10,10 +10,15 @@ use function sprintf;
 
 class Token extends AbstractEnum
 {
+    public const DIV = 'DIV';
     public const EOF = 'EOF';
     public const INTEGER = 'INTEGER';
-    public const PLUS = 'PLUS';
     public const MINUS = 'MINUS';
+    public const MUL = 'MUL';
+    public const PLUS = 'PLUS';
+
+    /** @var array */
+    public static $operands = [self::DIV, self::MINUS, self::MUL, self::PLUS];
 
     /** @var string */
     private $type;

@@ -55,6 +55,18 @@ class Interpreter
                 return new Token(Token::MINUS, '-');
             }
 
+            if ($this->currentChar === '*') {
+                $this->advance();
+
+                return new Token(Token::MUL, '*');
+            }
+
+            if ($this->currentChar === '/') {
+                $this->advance();
+
+                return new Token(Token::DIV, '/');
+            }
+
             $this->error();
         }
 
@@ -84,7 +96,7 @@ class Interpreter
     {
         $result = $this->term();
 
-        while (\in_array($this->currentToken->type(), [Token::PLUS, Token::MINUS], true)) {
+        while (\in_array($this->currentToken->type(), Token::$operands, true)) {
             $token = $this->currentToken;
 
             if ($token->type() === Token::PLUS) {
@@ -95,6 +107,16 @@ class Interpreter
             if ($token->type() === Token::MINUS) {
                 $this->consume(Token::MINUS);
                 $result -= $this->term();
+            }
+
+            if ($token->type() === Token::MUL) {
+                $this->consume(Token::MUL);
+                $result *= $this->term();
+            }
+
+            if ($token->type() === Token::DIV) {
+                $this->consume(Token::DIV);
+                $result /= $this->term();
             }
         }
 
