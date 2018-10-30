@@ -55,7 +55,7 @@ class Interpreter
                 return new Token(Token::MINUS, '-');
             }
 
-            throw new Exception('Error parsing input');
+            $this->error();
         }
 
         return new Token(Token::EOF, null);
@@ -69,7 +69,7 @@ class Interpreter
         Assert::oneOf($type, Token::getConstants());
 
         if ($this->currentToken->type() !== $type) {
-            throw new Exception('Error parsing input');
+            $this->error();
         }
 
         $this->currentToken = $this->getNextToken();
@@ -136,5 +136,13 @@ class Interpreter
         }
 
         return $number;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function error(): void
+    {
+        throw new Exception('Invalid syntax');
     }
 }

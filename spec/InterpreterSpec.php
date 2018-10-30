@@ -42,7 +42,7 @@ class InterpreterSpec extends ObjectBehavior
     {
         $this->beConstructedWith('3e5');
 
-        $this->shouldThrow(new Exception('Error parsing input'))->during('getNextToken');
+        $this->shouldThrow(new Exception('Invalid syntax'))->during('getNextToken');
     }
 
     function it_consumes_current_token()
@@ -57,7 +57,7 @@ class InterpreterSpec extends ObjectBehavior
     {
         $this->beConstructedWith('3+5');
 
-        $this->shouldThrow(new Exception('Error parsing input'))->during('consume', [Token::PLUS]);
+        $this->shouldThrow(new Exception('Invalid syntax'))->during('consume', [Token::PLUS]);
     }
 
     function it_computes_an_addition_with_one_digits()
