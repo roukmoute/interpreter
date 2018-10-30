@@ -5,6 +5,7 @@
     "require": {
         "php": ">=7.1",
         "greg0ire/enum": "^4.0",
+        "symfony/console": "^4.1",
         "webmozart/assert": "^1.3"
     },
     "license": "MIT",
