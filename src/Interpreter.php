@@ -94,33 +94,44 @@ class Interpreter
 
     public function expr(): string
     {
-        $result = $this->factor();
+        $result = $this->term();
 
-        while (\in_array($this->currentToken->type(), Token::$operands, true)) {
+        while (\in_array($this->currentToken->type(), [Token::PLUS, Token::MINUS], true)) {
             $token = $this->currentToken;
 
             if ($token->type() === Token::PLUS) {
                 $this->consume(Token::PLUS);
-                $result += $this->factor();
+                $result += $this->term();
             }
 
             if ($token->type() === Token::MINUS) {
                 $this->consume(Token::MINUS);
-                $result -= $this->factor();
-            }
-
-            if ($token->type() === Token::MUL) {
-                $this->consume(Token::MUL);
-                $result *= $this->factor();
-            }
-
-            if ($token->type() === Token::DIV) {
-                $this->consume(Token::DIV);
-                $result /= $this->factor();
+                $result -= $this->term();
             }
         }
 
         return (string) $result;
+    }
+
+    private function term(): int
+    {
+        $result = $this->factor();
+
+        while (\in_array($this->currentToken->type(), [Token::DIV, Token::MUL], true)) {
+            $token = $this->currentToken;
+
+            if ($token->type() === Token::MUL) {
+                $this->consume(Token::MUL);
+                $result *= $this->term();
+            }
+
+            if ($token->type() === Token::DIV) {
+                $this->consume(Token::DIV);
+                $result /= $this->term();
+            }
+        }
+
+        return (int) $result;
     }
 
     private function factor(): ?string

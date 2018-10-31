@@ -102,10 +102,17 @@ class InterpreterSpec extends ObjectBehavior
         $this->expr()->shouldReturn('5');
     }
 
+    function it_computes_with_precedence()
+    {
+        $this->beConstructedWith('14 + 2 * 3 - 6 / 2');
+
+        $this->expr()->shouldReturn('17');
+    }
+
     function it_computes_arithmetic_expressions_that_have_any_number()
     {
         $this->beConstructedWith('7 - 3 + 2 - 1 + 7 * 4 / 2 * 3');
 
-        $this->expr()->shouldReturn('72');
+        $this->expr()->shouldReturn('5');
     }
 }
