@@ -94,36 +94,36 @@ class Interpreter
 
     public function expr(): string
     {
-        $result = $this->term();
+        $result = $this->factor();
 
         while (\in_array($this->currentToken->type(), Token::$operands, true)) {
             $token = $this->currentToken;
 
             if ($token->type() === Token::PLUS) {
                 $this->consume(Token::PLUS);
-                $result += $this->term();
+                $result += $this->factor();
             }
 
             if ($token->type() === Token::MINUS) {
                 $this->consume(Token::MINUS);
-                $result -= $this->term();
+                $result -= $this->factor();
             }
 
             if ($token->type() === Token::MUL) {
                 $this->consume(Token::MUL);
-                $result *= $this->term();
+                $result *= $this->factor();
             }
 
             if ($token->type() === Token::DIV) {
                 $this->consume(Token::DIV);
-                $result /= $this->term();
+                $result /= $this->factor();
             }
         }
 
         return (string) $result;
     }
 
-    private function term(): ?string
+    private function factor(): ?string
     {
         $token = $this->currentToken;
         $this->consume(Token::INTEGER);
